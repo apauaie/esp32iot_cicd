@@ -34,11 +34,11 @@ jobs:
 #       - name: Setup Pages
 #         uses: actions/configure-pages@v2
 
-      - name: Install dependencies
-        run: npm install --no-audit
+#       - name: Install dependencies
+#         run: npm install --no-audit
 
-      - name: Build the app
-        run: npm run -w app build
+#       - name: Build the app
+#         run: npm run -w app build
 
       - name: Setup arduino
         run: ./bin/esp32.sh

@@ -5,66 +5,27 @@ on:
     branches:
     - main
 jobs:
-  build:
+
+          
+  build-for-esp32:
+    runs-on: ubuntu-latest
+    
     strategy:
       matrix:
-         - board: BOARD_ESP32
-    name: Compile web flash
-    
-    runs-on: ubuntu-latest
-
-    permissions:
-      pages: write
-      id-token: write
-      contents: read
-
-#     environment:
-#       name: github-pages
-#       url: '${{ steps.deployment.outputs.page_url }}'
+        fqbn:
+          - esp32:esp32:esp32
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
+      - uses: arduino/compile-sketches@v1
         with:
-          submodules: recursive
-
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '16'
-
-
-      # We use the arduino/setup-arduino-cli action to install and
-      # configure the Arduino CLI on the system.
-      - name: Setup Arduino CLI
-        uses: arduino/setup-arduino-cli@v1.1.0
-
-      # We then install arduino
-      - name: Install platform
-        run: arduino-cli core update-index
-        
-        
-#       - name: Setup Pages
-#         uses: actions/configure-pages@v2
-
-#       - name: Install dependencies
-#         run: npm install --no-audit
-
-#       - name: Build the app
-#         run: npm run -w app build
-
-      - name: Setup arduino
-        run: ./bin/build.sh
-
-      - name: Compile firmware
-        run: ./bin/flash.sh
-
-      - name: Build the flash tool
-        run: npm run -w web_flash build
-        env:
-          NODE_ENV: production
-
-      - name: Upload pages artifacts
-        uses: actions/upload-pages-artifact@v1
-        with:
-          path: web_flash/dist
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          fqbn: ${{ matrix.fqbn }}
+          platforms: |
+            - name: esp32:esp32
+              source-url: https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json
+          sketch-paths: |
+            - iot/
+          cli-compile-flags: |
+            - --warnings="none"
 

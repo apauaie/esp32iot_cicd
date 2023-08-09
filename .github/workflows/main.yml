@@ -5,9 +5,7 @@ on:
     branches:
     - main
 jobs:
-
-          
-  build-for-esp32:
+  build:
     runs-on: ubuntu-latest
     
     strategy:
@@ -25,7 +23,7 @@ jobs:
             - name: esp32:esp32
               source-url: https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json
           sketch-paths: |
-            - iot/
+            - iot/iot.ino
           cli-compile-flags: |
             - --warnings="none"
 

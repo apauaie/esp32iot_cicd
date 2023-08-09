@@ -6,7 +6,12 @@ on:
     - main
 jobs:
   build:
+    strategy:
+      matrix:
+         - board: BOARD_ESP32
+            arduino-platform: esp32:esp32
     name: Compile web flash
+    
     runs-on: ubuntu-latest
 
     permissions:
@@ -28,9 +33,17 @@ jobs:
         with:
           node-version: '16'
 
-      - name: Install Arduino CLI
-        uses: arduino/setup-arduino-cli@v1
 
+      # We use the arduino/setup-arduino-cli action to install and
+      # configure the Arduino CLI on the system.
+      - name: Setup Arduino CLI
+        uses: arduino/setup-arduino-cli@v1.1.0
+
+      # We then install arduino
+      - name: Install platform
+        run: arduino-cli core update-index
+        
+        
 #       - name: Setup Pages
 #         uses: actions/configure-pages@v2
 
@@ -41,10 +54,10 @@ jobs:
 #         run: npm run -w app build
 
       - name: Setup arduino
-        run: ./bin/esp32.sh
+        run: ./bin/build.sh
 
       - name: Compile firmware
-        run: ./bin/esp32.sh
+        run: ./bin/flash.sh
 
       - name: Build the flash tool
         run: npm run -w web_flash build

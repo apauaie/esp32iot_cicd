@@ -9,7 +9,6 @@ jobs:
     strategy:
       matrix:
          - board: BOARD_ESP32
-            arduino-platform: esp32:esp32
     name: Compile web flash
     
     runs-on: ubuntu-latest

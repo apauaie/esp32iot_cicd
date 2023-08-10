@@ -29,6 +29,7 @@ jobs:
             - name: ESP32Servo
             - name: Blynk
               version: 1.2.0
+            - name : Adafruit_NeoPixel
           cli-compile-flags: |
             - --warnings="none"
 

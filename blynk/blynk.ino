@@ -123,6 +123,9 @@ void Timer1_TimerEvent()
 }
 
 Servo servo_23;
+#include <Adafruit_NeoPixel.h>
+ Adafruit_NeoPixel pixels = Adafruit_NeoPixel(5, 4, NEO_GRB + NEO_KHZ800);
+
 BLYNK_WRITE(V9)
 {
 int pinValue = param.asInt();
@@ -132,6 +135,13 @@ int pinValue = param.asInt();
 	servo_23.write(0);
 
   } else {
+	pixels.setPixelColor(0, 0xffffff);
+	pixels.setPixelColor(1, 0xffffff);
+	pixels.setPixelColor(2, 0xffffff);
+	pixels.setPixelColor(3, 0xffffff);
+	pixels.setPixelColor(4, 0xffffff);
+	pixels.show();
+	pixels.show();
 
   }
 }
@@ -196,6 +206,8 @@ void setup() {
   Timer1.setInterval(500, Timer1_TimerEvent);
 
   servo_23.attach(23);
+  pixels.begin();
+
   servo_5.attach(5);
 }
 
